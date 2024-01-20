@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "@/layouts/Layout.astro";
+import Sidebar from "@/components/Sidebar.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+export type Props = CollectionEntry<"learn">;
+export const getStaticPaths = (async () => {
+  const entries = await getCollection("learn");
+  return entries.map((entry) => ({
+    params: {
+      slug: entry.slug,
+    },
+    props: entry,
+  }));
+}) satisfies GetStaticPaths;
+
+const { render } = Astro.props;
+const { Content } = await render();
+---
+
+<Layout title="sas">
+  <main class="flex">
+    <Sidebar />
+    <article class="hero flex-1 block w-full">
+      <Content />
+    </article>
+  </main>
+</Layout>
