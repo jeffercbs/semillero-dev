@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import Accordion from "./Accordion.astro";
+import MenuItem from "./MenuItem.astro";
+
+const entrys = await getCollection("learn");
+---
+
+<aside
+  class="md:w-1/4 border-r border-gray-600 h-full min-h-dvh sticky inset-y-0 left-0"
+>
+  <div class="px-6 size-full py-8">
+    <ul class="*:my-2">
+      <li>
+        <MenuItem href="/learn" icon="trophy" label="Inicio">
+          Logros desbloqueados
+        </MenuItem>
+      </li>
+      <li>
+        <MenuItem href="/learn" icon="land-plot" label="Inicio">
+          Contenido del curso
+        </MenuItem>
+        <div class="pl-4">
+          <Accordion label="Introducción" items={entrys} open />
+          <Accordion label="Fundamentos" items={[]} />
+        </div>
+      </li>
+    </ul>
+  </div>
+</aside>

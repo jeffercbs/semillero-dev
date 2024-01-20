@@ -1,0 +1,76 @@
+---
+export type Props = {
+  label: string;
+  open?: boolean;
+  color?: string;
+  items: Array<{
+    slug: string;
+    data: {
+      title: string;
+      disabled?: boolean;
+    };
+  }>;
+};
+
+const { label, items, open = false } = Astro.props;
+---
+
+<details
+  class="transition-all px-2 rounded-lg opacity-70"
+  name="details"
+  {open}
+>
+  <summary class="font-semibold cursor-pointer list-outside ml-4 pl-2">
+    <span class="flex justify-between text-yellow-400">
+      <span set:text={label} />
+      <span class="px-1 rounded-lg text-white" set:text={items.length} />
+    </span>
+  </summary>
+  <ol class="*:opacity-70 ml-1 pl-4 border-l border-gray-400">
+    {
+      items.length > 0 ? (
+        items.map(({ slug, data }) => (
+          <li class="py-1">
+            <a class="flex items-center gap-x-2" href={`/learn/${slug}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 text-gray-300"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <>
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" />
+                  <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" />
+                  <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" />
+                  <path d="M8.56 20.31a9 9 0 0 0 3.44 .69" />
+                  <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95" />
+                  <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44" />
+                  <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92" />
+                  <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69" />
+                </>
+              </svg>
+              <span class="truncate" set:text={data.title} />
+            </a>
+          </li>
+        ))
+      ) : (
+        <li class="py-1">
+          <span class="text-gray-400">No items</span>
+        </li>
+      )
+    }
+  </ol>
+</details>
+
+<style>
+  details[open] {
+    @apply opacity-100;
+  }
+</style>
